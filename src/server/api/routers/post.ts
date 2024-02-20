@@ -7,9 +7,12 @@ import {
 } from "@/server/api/trpc";
 
 export const postRouter = createTRPCRouter({
-  hello: publicProcedure
+  hello: protectedProcedure
     .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
+    .query(async ({ input }) => {
+      // wait for 1 second
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       return {
         greeting: `Hello ${input.text}`,
       };
